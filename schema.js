@@ -10,19 +10,23 @@ const typeDefs = gql`
     symbol: String!
     name: String
     price: Float
-    # company: Company
   }
 
   type Company {
+    profile: Profile
+    financial_statement: Financial_statement
+  }
+
+  type Profile {
     price: Float
     beta: Float
-    volAvg: Float
-    mktCap: Float
-    lastDiv: Float
+    vol_avg: Float
+    mkt_cap: Float
+    last_div: Float
     range: String
     changes: Float
-    changesPercentage: String
-    companyName: String
+    changes_percentage: String
+    company_name: String
     exchange: String
     industry: String
     website: String
@@ -30,6 +34,25 @@ const typeDefs = gql`
     ceo: String
     sector: String
   }
+
+  type Financial_statement {
+    income_statements: [Income_statement]!
+		balance_sheet_statements: [Balance_sheet_statement]! 
+		# CashFlowStatement
+  }
+
+  type Income_statement {
+    date: String
+    revenue: Float
+    revenue_growth: Float
+    cost_of_revenue: Float
+  }
+
+  type Balance_sheet_statement {
+    date: String
+    cash_and_cash_equivalents: Float
+  }
+
 `;
 
 

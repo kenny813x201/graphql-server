@@ -14,37 +14,66 @@ class FinancialModelingPrepAPI extends RESTDataSource {
   }
 
   symbolReducer(symbol) {
-
     return {
       symbol: symbol.symbol,
       name: symbol.name,
       price: symbol.price,
-      // company: company
     };
   }
 
-  async getCompanyBySymbol({symbol}) {
+  async getCompanyProfile({symbol}) {
     const response = await this.get(`/company/profile/${symbol}`);
-    return this.companyReducer(response.profile);
+    return this.companyProfileReducer(response.profile);
   }
 
-  companyReducer(company) {
+  companyProfileReducer(profile) {
     return {
-      price: company.price,
-      beta: company.beta,
-      volAvg: company.volAvg,
-      mktCap: company.mktCap,
-      lastDiv: company.lastDiv,
-      range: company.range,
-      changes: company.changes,
-      changesPercentage: company.changesPercentage,
-      companyName: company.companyName,
-      exchange: company.exchange,
-      industry: company.industry,
-      website: company.website,
-      description: company.description,
-      ceo: company.ceo,
-      sector: company.sector,
+      price: profile.price,
+      beta: profile.beta,
+      vol_avg: profile.volAvg,
+      mkt_cap: profile.mktCap,
+      las_div: profile.lastDiv,
+      range: profile.range,
+      changes: profile.changes,
+      changes_percentage: profile.changesPercentage,
+      company_name: profile.companyName,
+      exchange: profile.exchange,
+      industry: profile.industry,
+      website: profile.website,
+      description: profile.description,
+      ceo: profile.ceo,
+      sector: profile.sector,
+    }
+  }
+
+  async getFinancialsIncomeStatement({symbol}) {
+    const response = await this.get(`/financials/income-statement/${symbol}`);
+    return Array.isArray(response.financials)
+      ? response.financials.map(incomeStatement => this.financialsIncomeStatementReducer(incomeStatement))
+      : []
+  }
+
+  financialsIncomeStatementReducer(financials) {
+    return {
+      date: financials.date,
+      revenue: financials.Revenue,
+      revenue_growth: financials['Revenue Growth'],
+      cost_of_revenue : financials['Cost Of Revenue']
+    }
+  }
+
+  async getFinancialsBalanceSheetStatement({symbol}) {
+    const response = await this.get(`/financials/balance-sheet-statement/${symbol}`);
+    return Array.isArray(response.financials)
+      ? response.financials.map(balanceSheetStatement => 
+        this.financialsBalanceSheetStatementReducer(balanceSheetStatement))
+      : []
+  }
+
+  financialsBalanceSheetStatementReducer(financials) {
+    return {
+      date: financials.date,
+      cash_and_cash_equivalents: financials['Cash and cash equivalents']
     }
   }
 
