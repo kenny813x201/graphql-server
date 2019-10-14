@@ -77,6 +77,20 @@ class FinancialModelingPrepAPI extends RESTDataSource {
     }
   }
 
+  async getFinancialsCashFlowStatement({symbol}) {
+    const response = await this.get(`/financials/cash-flow-statement/${symbol}`);
+    return Array.isArray(response.financials)
+      ? response.financials.map(cashFlowStatement => 
+        this.financialsCashFlowStatementReducer(cashFlowStatement))
+      : []
+  }
+
+  financialsCashFlowStatementReducer(financials) {
+    return {
+      date: financials.date,
+      depreciation_and_amortization: financials['Depreciation & Amortization']
+    }
+  }
 }
 
 module.exports = FinancialModelingPrepAPI;

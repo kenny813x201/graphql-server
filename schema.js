@@ -38,7 +38,7 @@ const typeDefs = gql`
   type Financial_statement {
     income_statements: [Income_statement]!
 		balance_sheet_statements: [Balance_sheet_statement]! 
-		# CashFlowStatement
+		cash_flow_statements: [Cash_flow_statement]!
   }
 
   type Income_statement {
@@ -51,6 +51,11 @@ const typeDefs = gql`
   type Balance_sheet_statement {
     date: String
     cash_and_cash_equivalents: Float
+  }
+
+  type Cash_flow_statement {
+    date: String
+    depreciation_and_amortization: Float
   }
 
 `;
