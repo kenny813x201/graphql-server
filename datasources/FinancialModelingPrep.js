@@ -3,11 +3,11 @@ const { RESTDataSource } = require('apollo-datasource-rest');
 class FinancialModelingPrepAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = 'https://financialmodelingprep.com/api/v3/';
+    this.baseURL = 'https://financialmodelingprep.com/api/v3';
   }
 
   async getAllSymbols() {
-    const response = await this.get('company/stock/list');
+    const response = await this.get('/company/stock/list');
     return Array.isArray(response.symbolsList)
       ? response.symbolsList.map(symbol => this.symbolReducer(symbol))
       : [];
